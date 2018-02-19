@@ -5,7 +5,16 @@ driver.navigate.to 'https://cardlibrary.dqrivals.com/cards/search?leader=all,ter
 
 wait = Selenium::WebDriver::Wait.new(:timeout => 30) # タイムアウト30秒
 wait.until {driver.find_element(:xpath, "//*[@id='app']/div[1]/div[2]/div[2]/div[2]/ul")} #読み込むまで待機
-# driver.find_element(:id, "sqexFooter").location_once_scrolled_into_view
+
+### カードパック選択 ###
+def select_card_pack(driver)
+  pack_n = driver.find_elements(:xpath, "//*[@id='app']/div[1]/div[2]/div[1]/div/fieldset[2]/div[2]/select/option").size
+  for n in 1..pack_n do
+    value = driver.find_element(:xpath, "//*[@id='app']/div[1]/div[2]/div[1]/div/fieldset[2]/div[2]/select/option[#{n}]").attribute("value")
+    name = driver.find_element(:xpath, "//*[@id='app']/div[1]/div[2]/div[1]/div/fieldset[2]/div[2]/select/option[#{n}]").text
+    puts "#{name} #{value}"
+  end
+end
 
 ### カード名取得 ###
 def get_card_name(driver)
@@ -19,6 +28,7 @@ def get_card_name(driver)
   end
 end
 
-get_card_name(driver)
+# get_card_name(driver)
+select_card_pack(driver)
 
 # driver.quit # ブラウザ終了
