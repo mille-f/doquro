@@ -45,7 +45,11 @@ def get_card_name(driver, pack)
   1.step do |i|
     if driver.find_elements(:xpath, "//*[@id='app']/div[1]/div[2]/div[2]/div[2]/ul/li[#{i}]/img").size > 0
       img = driver.find_element(:xpath, "//*[@id='app']/div[1]/div[2]/div[2]/div[2]/ul/li[#{i}]/img")
-      puts img.attribute("alt")
+      img.location_once_scrolled_into_view
+      wait.until {img.attribute("src") != "https://cardlibrary.dqrivals.com/img/common/sleeve.png"}
+      name = img.attribute("alt")
+      pic = img.attribute("src")
+      puts "#{name} #{pic}"
     else
       break
     end
